@@ -66,7 +66,7 @@ def load_mongo_settings() -> MongoSettings:
     """
     # Where we expect to run: this module sits in app/, default config is at Backend/config.json
     # Determine candidate path
-    config_path = os.getenv("CONFIG_PATH")
+    config_path = "./Backend/config.json"
     if config_path:
         if os.path.isfile(config_path):
             try:
