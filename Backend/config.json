@@ -1,6 +1,7 @@
 {
-  "_note": "Sample configuration file with placeholders. Do NOT commit real credentials. You can also copy this to Backend/config.json and edit.",
-  "mongo_uri": "mongodb+srv://db_user:vettel%402012@cluster0.htz84wq.mongodb.net/network?retryWrites=true&w=majority",
-  "database_name": "device_inventory",
-  "collection_name": "devices"
+  "mongodb": {
+    "uri": "mongodb+srv://db_user:vettel%402012@cluster0.htz84wq.mongodb.net/network?retryWrites=true&w=majority",
+    "database": "device_inventory",
+    "collection": "devices"
+  }
 }
