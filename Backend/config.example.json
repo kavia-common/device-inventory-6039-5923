@@ -1,0 +1,7 @@
+{
+  "mongodb": {
+    "uri": "mongodb://localhost:27017",
+    "database": "device_inventory",
+    "collection": "devices"
+  }
+}

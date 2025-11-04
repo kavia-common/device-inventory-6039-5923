@@ -1,25 +1,22 @@
-import os
 from typing import Tuple
 from pymongo import MongoClient, ASCENDING
 from pymongo.collection import Collection
+from .config import load_mongo_settings
 
 
 # PUBLIC_INTERFACE
 def get_mongo_collection() -> Tuple[MongoClient, Collection]:
     """Return a connected MongoClient and the configured collection.
 
-    Environment variables:
-    - MONGODB_URI: MongoDB connection URI (e.g., mongodb://user:pass@host:27017)
-    - MONGODB_DB: Database name
-    - MONGODB_COLLECTION: Collection name
+    The configuration is resolved via app.config.load_mongo_settings(), which:
+      - Loads from CONFIG_PATH JSON file, or ./config.json if present
+      - Falls back to environment variables for backward compatibility
     """
-    mongo_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
-    db_name = os.getenv("MONGODB_DB", "device_inventory")
-    coll_name = os.getenv("MONGODB_COLLECTION", "devices")
+    settings = load_mongo_settings()
 
-    client = MongoClient(mongo_uri)
-    db = client[db_name]
-    collection = db[coll_name]
+    client = MongoClient(settings.uri)
+    db = client[settings.database]
+    collection = db[settings.collection]
 
     # Ensure unique index on name
     collection.create_index([("name", ASCENDING)], unique=True, name="uniq_name")
