@@ -9,7 +9,15 @@ from .errors import error_response
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-CORS(app, resources={r"/*": {"origins": "*"}})
+
+# Configure precise CORS: allow only the specified frontend origin and standard methods/headers.
+# Note: Origin is specified without trailing slash, as sent in the Origin header.
+CORS(
+    app,
+    resources={r"/*": {"origins": ["https://device-inventory.kavia.app"]}},
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+)
 
 # OpenAPI/Swagger configuration
 app.config["API_TITLE"] = "Device Management REST API"
