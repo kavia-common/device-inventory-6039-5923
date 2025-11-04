@@ -1,0 +1,6 @@
+{
+  "_note": "Sample configuration file with placeholders. Do NOT commit real credentials. You can also copy this to Backend/config.json and edit.",
+  "mongo_uri": "mongodb://USERNAME:PASSWORD@host:27017/?authSource=admin",
+  "database_name": "device_inventory",
+  "collection_name": "devices"
+}
