@@ -7,6 +7,27 @@
   },
   "servers": [{ "url": "http://localhost:5000", "description": "Local development server" }],
   "paths": {
+    "/healthz": {
+      "get": {
+        "summary": "Health check for MongoDB connectivity",
+        "description": "Returns 200 with {status: 'ok'} if MongoDB connection and collection are accessible; returns 503 with standardized error if not.",
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "MongoDB reachable and collection accessible",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "status": { "type": "string", "example": "ok" } }, "required": ["status"] }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable due to configuration or database connectivity",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } }
+          }
+        }
+      }
+    },
     "/devices": {
       "get": {
         "summary": "List all devices",
@@ -133,5 +154,8 @@
     }
   },
   "security": [],
-  "tags": [{ "name": "Devices", "description": "Operations related to network devices" }]
+  "tags": [
+    { "name": "Health", "description": "Health endpoints for service and MongoDB connectivity" },
+    { "name": "Devices", "description": "Operations related to network devices" }
+  ]
 }
