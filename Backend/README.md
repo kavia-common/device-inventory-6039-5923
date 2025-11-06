@@ -1,6 +1,6 @@
 # Backend - Device Inventory
 
-This is the Flask backend for the Device Inventory project. It exposes RESTful endpoints and integrates with MongoDB via `pymongo` (to be implemented).
+This is the Flask backend for the Device Inventory project. It exposes RESTful endpoints and integrates with MongoDB via `pymongo`.
 
 ## Running the server (dev)
 
@@ -11,6 +11,16 @@ This is the Flask backend for the Device Inventory project. It exposes RESTful e
   python run.py
 
 The API docs (via flask-smorest) will be available at `/docs`.
+
+## Configuration
+
+The backend reads MongoDB configuration from environment variables. Sensible defaults are used for local development if not provided.
+
+- MONGODB_URI (default: mongodb://localhost:27017)
+- MONGODB_DB (default: device_inventory)
+- MONGODB_COLLECTION (default: devices)
+
+Do NOT commit real credentials. Use a .env file managed by the deployment/orchestrator.
 
 ## Testing
 
@@ -24,7 +34,8 @@ This backend uses `pytest` for automated tests. Tests are located under `Backend
 
 Notes:
 - Tests mock MongoDB/pymongo so no real database is used.
-- The current source only includes a health check route ("/"). The test suite includes comprehensive tests for `/devices` and `/devices/{name}` as defined in the work item, and they are marked with `xfail` until those endpoints are implemented. This ensures the test run does not fail CI prematurely.
+- The suite includes tests for `/devices` and `/devices/{name}`. Error responses are standardized as:
+  {"error": {"code": "<status_code>", "message": "<description>"}}
 
 ## Make targets
 

@@ -1,10 +1,9 @@
 import pytest
 from .utils import is_error_response
 
-pytestmark = [pytest.mark.devices, pytest.mark.xfail_devices_missing]
+pytestmark = [pytest.mark.devices]
 
 
-@pytest.mark.xfail(reason="Endpoint /devices not implemented yet", raises=AssertionError, strict=False)
 def test_create_device_success(client, mock_pymongo, sample_device):
     mock_pymongo["collection"].find_one.return_value = None  # no existing
     resp = client.post("/devices", json=sample_device)

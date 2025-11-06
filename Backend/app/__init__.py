@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from .routes.health import blp
+from .routes.devices import blp_devices
 from flask_smorest import Api
 
 
@@ -17,3 +18,4 @@ app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-
 
 api = Api(app)
 api.register_blueprint(blp)
+api.register_blueprint(blp_devices)

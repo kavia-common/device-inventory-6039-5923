@@ -1,11 +1,10 @@
 import pytest
 from .utils import is_error_response
 
-pytestmark = [pytest.mark.devices, pytest.mark.xfail_devices_missing]
+pytestmark = [pytest.mark.devices]
 
 
 # GET /devices/{name}
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_get_device_success(client, mock_pymongo, sample_device):
     mock_pymongo["collection"].find_one.return_value = sample_device
     resp = client.get(f"/devices/{sample_device['name']}")
@@ -14,7 +13,6 @@ def test_get_device_success(client, mock_pymongo, sample_device):
     assert data["name"] == sample_device["name"]
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_get_device_not_found(client, mock_pymongo):
     mock_pymongo["collection"].find_one.return_value = None
     resp = client.get("/devices/unknown")
@@ -23,7 +21,6 @@ def test_get_device_not_found(client, mock_pymongo):
     assert is_error_response(data)
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_get_device_internal_error(client, mock_pymongo):
     def boom(*args, **kwargs):
         raise RuntimeError("unexpected")
@@ -36,7 +33,6 @@ def test_get_device_internal_error(client, mock_pymongo):
 
 
 # PUT /devices/{name}
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_update_device_success(client, mock_pymongo, sample_device, sample_device_update):
     mock_pymongo["collection"].find_one.return_value = sample_device
     mock_pymongo["collection"].update_one.return_value = type("R", (), {"matched_count": 1, "modified_count": 1})
@@ -47,7 +43,6 @@ def test_update_device_success(client, mock_pymongo, sample_device, sample_devic
     assert data["location"] == sample_device_update["location"]
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_update_device_validation_error(client, mock_pymongo, sample_device):
     mock_pymongo["collection"].find_one.return_value = sample_device
     bad_update = {"type": "Router"}  # missing required fields according to spec
@@ -57,7 +52,6 @@ def test_update_device_validation_error(client, mock_pymongo, sample_device):
     assert is_error_response(data)
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_update_device_not_found(client, mock_pymongo, sample_device_update):
     mock_pymongo["collection"].find_one.return_value = None
     resp = client.put("/devices/unknown", json=sample_device_update)
@@ -66,7 +60,6 @@ def test_update_device_not_found(client, mock_pymongo, sample_device_update):
     assert is_error_response(data)
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_update_device_internal_error(client, mock_pymongo, sample_device_update):
     def boom(*args, **kwargs):
         raise RuntimeError("unexpected")
@@ -79,7 +72,6 @@ def test_update_device_internal_error(client, mock_pymongo, sample_device_update
 
 
 # DELETE /devices/{name}
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_delete_device_success(client, mock_pymongo, sample_device):
     mock_pymongo["collection"].find_one.return_value = sample_device
     mock_pymongo["collection"].delete_one.return_value = type("R", (), {"deleted_count": 1})
@@ -88,7 +80,6 @@ def test_delete_device_success(client, mock_pymongo, sample_device):
     assert resp.status_code in (200, 204)
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_delete_device_not_found(client, mock_pymongo):
     mock_pymongo["collection"].find_one.return_value = None
     resp = client.delete("/devices/unknown")
@@ -97,7 +88,6 @@ def test_delete_device_not_found(client, mock_pymongo):
     assert is_error_response(data)
 
 
-@pytest.mark.xfail(reason="Endpoint /devices/{name} not implemented yet", raises=AssertionError, strict=False)
 def test_delete_device_internal_error(client, mock_pymongo):
     def boom(*args, **kwargs):
         raise RuntimeError("unexpected")

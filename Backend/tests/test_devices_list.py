@@ -1,10 +1,9 @@
 import pytest
 from .utils import is_error_response
 
-pytestmark = [pytest.mark.devices, pytest.mark.xfail_devices_missing]
+pytestmark = [pytest.mark.devices]
 
 
-@pytest.mark.xfail(reason="Endpoint /devices not implemented yet", raises=AssertionError, strict=False)
 def test_list_devices_success(client, mock_pymongo):
     # Arrange mock DB returns two devices
     mock_pymongo["collection"].find.return_value = [
@@ -35,7 +34,6 @@ def test_list_devices_success(client, mock_pymongo):
     )
 
 
-@pytest.mark.xfail(reason="Endpoint /devices not implemented yet", raises=AssertionError, strict=False)
 def test_list_devices_internal_error(client, mock_pymongo, monkeypatch):
     # Force an unexpected error in find()
     def boom(*args, **kwargs):
